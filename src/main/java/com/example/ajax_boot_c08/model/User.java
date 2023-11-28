@@ -1,5 +1,6 @@
 package com.example.ajax_boot_c08.model;
 
+//import com.example.ajax_boot_c08.model.dto.UserAccDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,12 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
+    private String email;
+    private String fullName;
+    private String avatar;
+    private String coverPhoto;
+    private String Description;
+
     public List<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         for (Role role : roles) {
@@ -34,4 +41,8 @@ public class User {
         }
         return authorities;
     }
+
+//    public UserAccDTO userAccDTO(){
+//        return new UserAccDTO(id,username,email,fullName,avatar,coverPhoto,getDescription(),roles.stream().findFirst().orElse(null));
+//    };
 }

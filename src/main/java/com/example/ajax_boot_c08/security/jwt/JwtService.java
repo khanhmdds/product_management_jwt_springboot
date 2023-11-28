@@ -3,6 +3,7 @@ package com.example.ajax_boot_c08.security.jwt;
 import com.example.ajax_boot_c08.model.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -45,5 +46,17 @@ public class JwtService {
                 .parseClaimsJws(token)
                 .getBody().getSubject();
         return userName;
+    }
+
+    // hàm tạo ra token
+    public String createToken(Authentication authentication) {
+        // lấy đối tượng đang đăng nhập.
+        User user = (User) authentication.getPrincipal();
+        return Jwts.builder()
+                .setSubject((user.getUsername()))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + EXPIRE_TIME * 1000))
+                .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+                .compact();
     }
 }
