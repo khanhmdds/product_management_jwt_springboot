@@ -1,6 +1,7 @@
 package com.example.ajax_boot_c08.security;
 
-import com.example.ajax_boot_c08.service.UserService;
+//import com.example.ajax_boot_c08.service.UserService;
+import com.example.ajax_boot_c08.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +24,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    @Autowired
 //    private CorsConfigurationSource corsConfigurationSource;
 
+//    @Autowired
+//    private UserService userService;
+
     @Autowired
-    private UserService userService;
+    private CustomerService customerService;
 
     @Bean
     public JwtAuthenticationFilter jwtAuthenticationFilter() {
@@ -54,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService);}//.passwordEncoder(passwordEncoder());
+        auth.userDetailsService(customerService);}//.passwordEncoder(passwordEncoder());
     //}
 
     @Bean
@@ -69,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/**");
         http.httpBasic().authenticationEntryPoint(restServicesEntryPoint());
         http.authorizeRequests()
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/api/login","/forgotPassword").permitAll()
                 .antMatchers("/customers**", "/api/hello","/ajax_boot_c08**").hasAnyRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().csrf().disable();

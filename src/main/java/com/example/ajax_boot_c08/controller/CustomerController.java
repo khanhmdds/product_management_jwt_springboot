@@ -70,11 +70,21 @@ public class CustomerController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id) {
-        customerService.delete(id);
-        return new ResponseEntity<>("Delete done!", HttpStatus.OK);
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<String> delete(@PathVariable Long id) {
+//        customerService.delete(id);
+//        return new ResponseEntity<>("Delete done!", HttpStatus.OK);
+//    }
+@DeleteMapping("/{id}")
+public ResponseEntity<String> delete(@PathVariable Long id) {
+    if (id.equals(2L)) {
+        // Trả về lỗi nếu id là 2
+        return new ResponseEntity<>("Cannot delete Admin Account", HttpStatus.BAD_REQUEST);
     }
+
+    customerService.delete(id);
+    return new ResponseEntity<>("Delete done!", HttpStatus.OK);
+}
 
     @PostMapping(value = "/upload")
     public ResponseEntity<Customer> createUpload(@RequestPart(value = "file", required = false) MultipartFile file,
@@ -97,69 +107,5 @@ public class CustomerController {
     public ResponseEntity<?> createUpload1(@RequestPart("file") MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PostMapping("/forgotPassword")
-    public ResponseEntity<Customer> forgot(@RequestBody Customer userAcc) {
-        Customer customer = customerService.findAllByUsernameAndEmail(userAcc.getUsername(), userAcc.getEmail());
-        if (customer != null)
-            return new ResponseEntity<>(customer, HttpStatus.OK);
-        else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/userAccDetail/{userAccId}")
-    public ResponseEntity<Customer> findUserAccDTOById(@PathVariable Long userAccId) {
-        Customer userAccDTO = customerService.findById(userAccId);
-        if (userAccDTO != null) {
-            return new ResponseEntity<>(userAccDTO, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<Customer> createNewAcc(@RequestBody Customer userAcc) {
-//        Role role = roleRepository.findByName("ROLE_USER");
-//        userAcc.setRole(role);
-        if (customerService.findAllByUsername(userAcc.getUsername()) == null) {
-            userAcc.setAvatar("https://cdn.pixabay.com/photo/2014/03/24/13/49/avatar-294480_960_720.png");
-            userAcc.setCoverPhoto("https://cdn.pixabay.com/photo/2014/03/24/13/49/avatar-294480_960_720.png");
-            userAcc.setDescription("");
-            return new ResponseEntity<>(userAcc, HttpStatus.OK);
-        }
-        else
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PostMapping("/editUserAcc/{userAccId}")
-    public ResponseEntity<Customer> editUserAcc(@PathVariable Long userAccId,
-                                               @RequestBody Customer userAcc) {
-        Customer userAcc1 = customerService.findById(userAccId);
-        if (userAcc1 != null) {
-            userAcc.setId(userAccId);
-            userAcc.setPassword(userAcc1.getPassword());
-            customerService.save(userAcc);
-            return new ResponseEntity<>(userAcc, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("/editPassword/{userAccId}/{passworldNew}/{passwordOld}")
-    public ResponseEntity<Customer> editPassword(@PathVariable String passworldNew,
-                                                @PathVariable Long userAccId,
-                                                @PathVariable String passwordOld) {
-        Customer userAcc1 = customerService.findById(userAccId);
-        if (userAcc1 != null) {
-            if (userAcc1.getPassword().equals(passwordOld)) {
-                customerService.changePassword(userAccId, passworldNew);
-                return new ResponseEntity<>(HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 }

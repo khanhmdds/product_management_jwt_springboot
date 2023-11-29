@@ -1,6 +1,7 @@
 package com.example.ajax_boot_c08.security.jwt;
 
-import com.example.ajax_boot_c08.model.UserPrinciple;
+//import com.example.ajax_boot_c08.model.UserPrinciple;
+import com.example.ajax_boot_c08.model.CustomerPrinciple;
 import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -10,11 +11,11 @@ import java.util.Date;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "123456789987654321123456789987654321123456789";
+    private static final String SECRET_KEY = "123456789987654321123456789987654321123456789999999999999999999";
     private static final long EXPIRE_TIME = 86400000000L;
 
     public String generateTokenLogin(Authentication authentication) {
-        UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
+        CustomerPrinciple userPrincipal = (CustomerPrinciple) authentication.getPrincipal();
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

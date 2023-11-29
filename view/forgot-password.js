@@ -10,7 +10,7 @@ function forgotPassword() {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + localStorage.getItem('token')
         },
-        url: "http://localhost:8080/customers/forgotPassword",
+        url: "http://localhost:8080/forgotPassword",
         data: JSON.stringify(user),
         success: function (user) {
             console.log(user.password)
@@ -21,6 +21,4 @@ function forgotPassword() {
             $("#pForgotPassword").html("Tài khoản không tồn tại  ")
         }
     })
-
-
 }
