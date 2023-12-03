@@ -330,7 +330,6 @@
       } else if (val.indexOf('Opera') > -1) {
         browserPrexix = 'OTransform';
       }
-
       return browserPrexix;
     }
 

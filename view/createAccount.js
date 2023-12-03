@@ -88,7 +88,7 @@ function showFormLogin(){
     form+=`
     <h2 class="log-title">Login</h2>
 <p>
-Don’t use Winku Yet? <a href="#" title="">Take the tour</a> or <a href="#" title="">Join now</a>
+Don’t have Account Yet? <a href="#" title="">Take the tour</a> or <a href="#" title="">Join now</a>
 </p>
 <div>
 <div class="form-group">\t

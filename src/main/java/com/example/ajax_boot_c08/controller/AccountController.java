@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -67,9 +68,8 @@ public class AccountController {
         Customer userAcc1 = customerService.findById(userAccId);
         if (userAcc1 != null) {
             userAcc.setId(userAccId);
-            userAcc.setUsername(userAcc1.getUsername());
-            userAcc.setEmail(userAcc1.getEmail());
-            userAcc.setPassword(userAcc1.getPassword());
+//            userAcc.setUsername(userAcc1.getUsername());
+
             customerService.save(userAcc);
             return new ResponseEntity<>(userAcc, HttpStatus.OK);
         } else {
