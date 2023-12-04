@@ -7,7 +7,6 @@ $(document).ready(function() {
     $("#avatar").val(userAccOjb.avatar)
     $("#coverPhoto").val(userAccOjb.coverPhoto)
     $("#description").val(userAccOjb.description)
-
 });
 function back(){
     const userAcc = localStorage.getItem('user');

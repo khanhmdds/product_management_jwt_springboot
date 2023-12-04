@@ -101,7 +101,7 @@ public class AuthController {
             if (authority.getAuthority().equals("ROLE_ADMIN")) {
                 return "index.html";
             } else if (authority.getAuthority().equals("ROLE_USER")) {
-                return "index2.html";
+                return "edit-profile-basic.html";
             }
         }
         return "/";

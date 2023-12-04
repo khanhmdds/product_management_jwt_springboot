@@ -69,7 +69,6 @@ public class AccountController {
         if (userAcc1 != null) {
             userAcc.setId(userAccId);
 //            userAcc.setUsername(userAcc1.getUsername());
-
             customerService.save(userAcc);
             return new ResponseEntity<>(userAcc, HttpStatus.OK);
         } else {
