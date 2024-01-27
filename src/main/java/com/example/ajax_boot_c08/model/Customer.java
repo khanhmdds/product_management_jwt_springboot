@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -44,4 +45,20 @@ public class Customer {
         return authorities;
     }
 
+//    public GrantedAuthority getAuthority() {
+//        if (!roles.isEmpty()) {
+//            Role firstRole = roles.iterator().next();
+//            return new SimpleGrantedAuthority(firstRole.getName());
+//        }
+//        return new SimpleGrantedAuthority("ROLE_USER");
+//    }
+
+    public void setRole(Role role) {
+        if (roles == null) {
+            roles = new HashSet<>();
+        } else {
+            roles.clear(); // Đảm bảo chỉ có một vai trò được giữ trong tập hợp
+        }
+        roles.add(role);
+    }
 }

@@ -55,6 +55,10 @@ public class CustomerService implements UserDetailsService{
         return iCustomerRepository.findAllByUsername(username);
     }
 
+    public Customer findAllByEmail(String email) {
+        return iCustomerRepository.findAllByEmail(email);
+    }
+
     @Transactional
     public void changePassword(Long id, String password) {
         Customer userAcc = iCustomerRepository.findById(id).get();

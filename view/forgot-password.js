@@ -8,7 +8,7 @@ function forgotPassword() {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token')
         },
         url: "http://localhost:8080/forgotPassword",
         data: JSON.stringify(user),

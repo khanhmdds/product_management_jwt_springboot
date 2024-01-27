@@ -18,13 +18,13 @@ $(document).ready(function() {
 
         },
         error: function (err) {
-            console.log("loi")
+            console.log("error")
         }
     })
 });
 function avatarUserAcc(avatar){
     let str = `
-    								<img src="${avatar}" alt="">
+    								<img style="width: 10px; height: 10px" src="${avatar}" alt="">
 
     `
     $(".userAvatar1").html(str)

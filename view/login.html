@@ -111,7 +111,9 @@
                     // sessionStorage.setItem("token", data.accessToken)
                     // window.location.href = "index.html"
                     sessionStorage.setItem("token", data.accessToken);
-                    localStorage.setItem("user", JSON.stringify(data));
+                    sessionStorage.setItem("user", JSON.stringify(data))
+                    // localStorage.setItem("token", data.accessToken);
+                    // localStorage.setItem("user", JSON.stringify(data));
                     window.location.href = data.redirectUrl;
                 }
             })
@@ -126,15 +128,16 @@
         <div class="row merged">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="land-featurearea">
-                    <div class="land-meta">
-                        <h1>Login</h1>
-<!--                        <p>-->
-<!--                            Login						</p>-->
-                        <div class="friend-logo">
-<!--                            <span><img src="images/wink.png" alt=""></span>-->
-                        </div>
-                        <a href="#" title="" class="folow-me">Follow Us on</a>
-                    </div>
+                        <img style="width: 100% !important;height: 100% !important;object-fit: cover !important; " class="land-featurearea" src="images/home-decor-3.jpg" alt="">
+<!--                    <div class="land-meta">-->
+<!--                        <h1></h1>-->
+<!--&lt;!&ndash;                        <p>&ndash;&gt;-->
+<!--&lt;!&ndash;                            Login						</p>&ndash;&gt;-->
+<!--                        <div class="friend-logo">-->
+<!--&lt;!&ndash;                            <span><img src="images/wink.png" alt=""></span>&ndash;&gt;-->
+<!--                        </div>-->
+<!--                        <a href="#" title="" class="folow-me"></a>-->
+<!--                    </div>-->
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -145,7 +148,7 @@
                             <input type="text" id="username" name="username" placeholder="username" th:value="${username}">
                             <input type="password" id="password" name="password" placeholder="password" th:value="${password}">
                             <!-- Thêm th:onclick để sử dụng Thymeleaf cho thuộc tính onclick -->
-                            <button type="button" id="loginButton" th:onclick="login()">Đăng nhập</button>
+                            <button type="button" id="loginButton" th:onclick="login()">Login</button>
                             <div id="error" th:text="${error}"></div>
                         </form>
                     </div>

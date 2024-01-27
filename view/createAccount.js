@@ -27,7 +27,7 @@ Don’t use Winku Yet? <a href="#" title="">Take the tour</a> or <a href="#" tit
 <input type="checkbox" checked="checked"/><i class="check-box"></i>Accept Terms & Conditions ?
  </label>
 </div>
-<a href="#" title="" class="already-have">Already have an account</a>
+<a href="login.html" title="" class="already-have">Already have an account</a>
 <div class="submit-btns">
 <button class="mtr-btn signup" type="button" onclick="showFormLogin()"><span>Back</span></button>
 
@@ -68,19 +68,19 @@ function register(){
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
-                    title: 'Thành công',
+                    title: 'Success',
                     showConfirmButton: false,
                     timer: 1500
                 });
                 // window.location.reload();
-                location.href = "landing.html";
+                location.href = "login.html";
             },
             error: function () {
-                alert("Có lỗi xảy ra. Vui lòng thử lại sau.");
+                alert("Email or Username already exist!");
             }
         });
     } else {
-        alert("Hãy nhập đầy đủ thông tin.");
+        alert("Not allow null");
     }
 }
 function showFormLogin(){

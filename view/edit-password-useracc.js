@@ -1,5 +1,5 @@
 $(document).ready(function (){
-    let userAcc = localStorage.getItem('user');
+    let userAcc = sessionStorage.getItem('user');
     let userAccOjb = JSON.parse(userAcc)
     let userAccId = userAccOjb.id
     $.ajax({
@@ -7,7 +7,7 @@ $(document).ready(function (){
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + localStorage.getItem('token')
+            'Authorization': 'Bearer ' + sessionStorage.getItem('token')
         },
         url: "http://localhost:8080/userAccDetail/" + userAccId,
         success: function (data) {
@@ -29,33 +29,33 @@ function avatarUserAcc(avatar){
     $(".userAvatar1").html(str)
 }
 function back(){
-    const userAcc = localStorage.getItem('user');
+    const userAcc = sessionStorage.getItem('user');
     let userAccOjb = JSON.parse(userAcc)
-    window.location.href = `time-line.html?userAccId=` + userAccOjb.id;
+    window.location.href = `edit-profile-basic.html?userAccId=` + userAccOjb.id;
 }
 
 function changePass(){
-    const userAcc = localStorage.getItem('user');
+    const userAcc = sessionStorage.getItem('user');
     let userAccOjb = JSON.parse(userAcc)
     let userAccId = userAccOjb.id
     let passwordOld = $("#passwordOld").val();
     let password = $("#password").val();
     let passwordNew = $("#passwordNew").val();
-    var regex = /^[!@#$%^&*][a-zA-Z0-9]+$/;
+    var regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]+$/;
 
 
     if ( passwordNew === "" ||  password === "" ||  passwordOld === "") {
 
-        $("#checkNull").text("Có một hoặc nhiều ô nhập đang để trống").show()
+        $("#checkNull").text("Data not null").show()
     } else {
         if (!regex.test(passwordNew)) {
-            $("#regexNewPass").text("Mật khẩu phải chứa ít nhất một chữ viết hoa, một số và một kí tự đặc biệt.").show()
+            $("#regexNewPass").text("Require capital, number, special characters").show()
         } else {
             if (password !== passwordNew){
-                $("#checkNewPass").text("Mật khẩu nhập lại chưa đúng").show()
+                $("#checkNewPass").text("Repassword not match").show()
             } else {
                 if (passwordNew === passwordOld) {
-                    $("#tb").text("Mật khẩu mới trùng với mật khẩu hiện ").show()
+                    $("#tb").text("Match password").show()
                 } else {
 
                     $.ajax({
@@ -63,16 +63,16 @@ function changePass(){
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            'Authorization': 'Bearer ' + sessionStorage.getItem('token')
                         },
                         url: "http://localhost:8080/editPassword/" + userAccId + "/" + passwordNew + "/" + passwordOld,
 
                         success: function () {
-                           window.location.href = `landing.html`
-
+                            alert("Update successfully!")
+                            window.location.href = `edit-profile-basic.html`
                         },
                         error: function (err) {
-                            $("#tb").text("Mật khẩu không chính xác")
+                            $("#tb").text("Incorect password")
                         }
                     })
                 }
@@ -84,7 +84,7 @@ function changePass(){
 
 }
 function backhome(){
-    window.location.href = `index.html`
+    window.location.href = `edit-profile-basic.html`
 }
 
 

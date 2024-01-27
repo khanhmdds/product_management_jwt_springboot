@@ -2,7 +2,9 @@ package com.example.ajax_boot_c08.controller;
 
 import com.example.ajax_boot_c08.model.Customer;
 //import com.example.ajax_boot_c08.model.dto.UserAccDTO;
+import com.example.ajax_boot_c08.model.Role;
 import com.example.ajax_boot_c08.repository.ICustomerRepository;
+import com.example.ajax_boot_c08.repository.IRoleRepository;
 import com.example.ajax_boot_c08.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @CrossOrigin("*")
@@ -28,6 +35,9 @@ import java.util.List;
 public class AccountController {
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private IRoleRepository roleRepository;
 
     @PostMapping("/forgotPassword")
     public ResponseEntity<Customer> forgot(@RequestBody Customer userAcc) {
@@ -50,16 +60,16 @@ public class AccountController {
 
     @PostMapping("/register")
     public ResponseEntity<Customer> createNewAcc(@RequestBody Customer userAcc) {
-//        Role role = roleRepository.findByName("ROLE_USER");
-//        userAcc.setRole(role);
-        if (customerService.findAllByUsername(userAcc.getUsername()) == null) {
+        if ((customerService.findAllByUsername(userAcc.getUsername()) == null) && (customerService.findAllByEmail(userAcc.getEmail()) == null)) {
             userAcc.setAvatar("https://cdn.pixabay.com/photo/2014/03/24/13/49/avatar-294480_960_720.png");
             userAcc.setCoverPhoto("https://cdn.pixabay.com/photo/2014/03/24/13/49/avatar-294480_960_720.png");
             userAcc.setDescription("");
+            Role role = roleRepository.findByName("ROLE_USER");
+            userAcc.setRole(role);
+            customerService.save(userAcc);
             return new ResponseEntity<>(userAcc, HttpStatus.OK);
         }
-        else
-            return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else return  new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/editUserAcc/{userAccId}")
@@ -68,10 +78,13 @@ public class AccountController {
         Customer userAcc1 = customerService.findById(userAccId);
         if (userAcc1 != null) {
             userAcc.setId(userAccId);
-//            userAcc.setUsername(userAcc1.getUsername());
+            userAcc.setPassword(userAcc1.getPassword());
+            Role role = roleRepository.findByName("ROLE_USER");
+            userAcc.setRole(role);
             customerService.save(userAcc);
             return new ResponseEntity<>(userAcc, HttpStatus.OK);
-        } else {
+        }
+        else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -83,6 +96,8 @@ public class AccountController {
         Customer userAcc1 = customerService.findById(userAccId);
         if (userAcc1 != null) {
             if (userAcc1.getPassword().equals(passwordOld)) {
+                Role role = roleRepository.findByName("ROLE_USER");
+                userAcc1.setRole(role);
                 customerService.changePassword(userAccId, passworldNew);
                 return new ResponseEntity<>(HttpStatus.OK);
             } else {
